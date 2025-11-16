@@ -60,29 +60,11 @@ servers:
 
 ## Usage
 
-### Basic Example (Single Model)
+### Basic Example
 
 ```python
 from forecast_kag.news_retrieval import NewsRetrievalPipeline
 
-# Use the same model for all agents
-pipeline = NewsRetrievalPipeline(
-    model_shortname="llama70",       # From your models/model_servers.yaml
-    config_path="models/model_servers.yaml",  # Path to config file
-    num_keywords=5,                  # Number of search keywords to generate
-    news_per_keyword=6,              # Articles to retrieve per keyword
-    min_news_rating=3,               # Minimum rating threshold (1-5)
-    news_period_days=90,             # How far back to search for news
-    question_gen_temp=0.7,           # Temperature for keyword generation
-    news_rating_temp=0.3,            # Temperature for news rating
-    summarization_temp=0.5,          # Temperature for summarization
-    max_tokens=1000                  # Max tokens for LLM responses
-)
-```
-
-### Advanced Example (Different Models per Agent)
-
-```python
 # Use different models for different agents
 pipeline = NewsRetrievalPipeline(
     keyword_model="llama70",         # Model for keyword generation
@@ -105,22 +87,11 @@ results = pipeline.run(
     background="Apple typically releases new iPhone models in September each year.",
     question_date="2024-03-01"  # Cutoff date for news retrieval
 )
-
-# Access results
-print(results['summary'])                  # Synthesized summary
-print(results['search_keywords'])          # Generated keywords
-print(results['relevant_news'])            # Articles that passed threshold
-print(results['stats'])                    # Pipeline statistics
 ```
 
 ### Pipeline Parameters
 
-**Model Selection (choose one approach):**
-
-*Option 1 - Single model for all agents:*
-- `model_shortname` (str): Model identifier from your config file
-
-*Option 2 - Different models per agent:*
+**Model Selection:**
 - `keyword_model` (str): Model for keyword generation
 - `rating_model` (str): Model for article rating
 - `summarization_model` (str): Model for synthesis
