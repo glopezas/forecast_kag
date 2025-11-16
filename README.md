@@ -69,7 +69,7 @@ from forecast_kag.news_retrieval import NewsRetrievalPipeline
 pipeline = NewsRetrievalPipeline(
     model_shortname="llama70",       # From your models/model_servers.yaml
     config_path="models/model_servers.yaml",  # Path to config file
-    num_questions=5,                 # Number of search keywords to generate
+    num_keywords=5,                  # Number of search keywords to generate
     news_per_keyword=6,              # Articles to retrieve per keyword
     min_news_rating=3,               # Minimum rating threshold (1-5)
     news_period_days=90,             # How far back to search for news

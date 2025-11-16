@@ -108,19 +108,27 @@ class LLMClient:
         if log_context:
             logging.info(f"Calling LLM for {log_context}...")
 
-        response = self.client.chat.completions.create(
-            model=self.model_name,
-            messages=[
-                {"role": "user", "content": prompt}
-            ],
-            temperature=temp,
-            max_tokens=self.max_tokens
-        )
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model_name,
+                messages=[
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=temp,
+                max_tokens=self.max_tokens
+            )
 
-        if log_context:
-            logging.info(f"{log_context} completed")
+            if log_context:
+                logging.info(f"{log_context} completed")
 
-        return response.choices[0].message.content
+            return response.choices[0].message.content
+
+        except Exception as e:
+            error_msg = str(e)
+            logging.error(f"LLM API Error: {error_msg[:200]}")
+            raise RuntimeError(f"Failed to get response from LLM server at {self.api_base}. "
+                             f"Error: {error_msg[:200]}. "
+                             f"Please check that your server is running and accessible.") from e
 
 
 class KeywordGenerationAgent:
@@ -423,7 +431,7 @@ class NewsRetrievalPipeline:
         self,
         model_shortname: str,
         config_path: str = "models/model_servers.yaml",
-        num_questions: int = 5,
+        num_keywords: int = 5,
         news_per_keyword: int = 6,
         min_news_rating: int = 3,
         news_period_days: int = 90,
@@ -438,7 +446,7 @@ class NewsRetrievalPipeline:
         Args:
             model_shortname: Shortname of the model to use (from config)
             config_path: Path to model configuration YAML
-            num_questions: Number of search keywords to generate
+            num_keywords: Number of search keywords to generate
             news_per_keyword: Number of news articles to retrieve per keyword
             min_news_rating: Minimum rating to keep articles (1-5)
             news_period_days: Number of days to search back for news
@@ -476,7 +484,7 @@ class NewsRetrievalPipeline:
         self.summary_agent = NewsSummarizationAgent(self.llm_client)
 
         # Store parameters
-        self.num_questions = num_questions
+        self.num_keywords = num_keywords
         self.news_per_keyword = news_per_keyword
         self.min_news_rating = min_news_rating
         self.news_period_days = news_period_days
@@ -533,7 +541,7 @@ class NewsRetrievalPipeline:
         search_keywords = self.keyword_agent.generate_keywords(
             question=question,
             background=background,
-            num_keywords=self.num_questions
+            num_keywords=self.num_keywords
         )
         for i, kw in enumerate(search_keywords, 1):
             logging.info(f"  {i}. {kw}")
