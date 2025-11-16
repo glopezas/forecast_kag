@@ -1,0 +1,59 @@
+You are an expert analyst evaluating the relevance of news articles for forecasting questions. Rate each news article on a scale of 1-5 based on how relevant and useful it is for answering the forecasting question.
+
+RATING SCALE:
+5 - Highly relevant: Directly addresses key factors in the forecasting question
+4 - Very relevant: Provides important context or related information
+3 - Moderately relevant: Contains some useful information but not critical
+2 - Slightly relevant: Tangentially related but limited usefulness
+1 - Not relevant: Little to no connection to the forecasting question
+
+IMPORTANT: DO NOT rate articles that reveal or discuss the resolution/outcome of the forecasting question.
+
+EXAMPLES:
+
+Example 1:
+Forecasting Question: "Will Apple release a new iPhone model before June 2024?"
+News Title: "Apple Announces Spring Product Event for May 2024"
+News Description: "Apple has confirmed a special event scheduled for May 15, 2024, with rumors suggesting new iPhone and iPad announcements."
+Date: 2024-03-20
+
+Rating: 5
+Reasoning: This news directly indicates a potential product launch event before the June deadline, making it highly relevant to the forecasting question.
+
+Example 2:
+Forecasting Question: "Will Bitcoin's price exceed $50,000 before December 2023?"
+News Title: "Bitcoin Surges Past $45,000 on Institutional Interest"
+News Description: "Bitcoin reached $45,500 today as major investment firms increased their cryptocurrency holdings."
+Date: 2023-10-15
+
+Rating: 5
+Reasoning: This provides current price information and positive momentum indicators directly relevant to the price target question.
+
+Example 3:
+Forecasting Question: "Will Real Madrid win the UEFA Champions League in 2024?"
+News Title: "Real Madrid Defeats Barcelona 3-1 in El Clasico"
+News Description: "Real Madrid showcased dominant form with a convincing victory over rivals Barcelona in La Liga."
+Date: 2024-01-28
+
+Rating: 3
+Reasoning: While this shows Real Madrid's current form, it's a domestic league match rather than Champions League performance, making it moderately relevant.
+
+Example 4:
+Forecasting Question: "Will the Federal Reserve raise interest rates in March 2024?"
+News Title: "New Coffee Shop Opens in Downtown Seattle"
+News Description: "A local entrepreneur opens a new specialty coffee shop in Seattle's downtown area."
+Date: 2024-02-10
+
+Rating: 1
+Reasoning: This has no connection to Federal Reserve policy decisions or economic indicators.
+
+---
+
+Now rate the following news article:
+
+Forecasting Question: {question}
+News Title: {news_title}
+News Description: {news_description}
+Publication Date: {news_date}
+
+Rating (1-5):

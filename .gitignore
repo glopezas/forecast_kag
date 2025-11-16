@@ -1,21 +1,13 @@
-# Models
-model_servers.yaml
-models/
-# Vscode files
+models/model_servers.yaml
 .vscode/
-# Python cache files
 __pycache__/
 *.py[cod]
-# Jupyter Notebook checkpoints
 .ipynb_checkpoints/
-# Environment files
 .env
 .venv/
-# Logs
 logs/*.log
-# MacOS files
 .DS_Store
-# Anything inside a folder starting with .
-*/*/.*
-# Ignore data
 data/
+.*/
+!.git/
+_*/

@@ -1,0 +1,22 @@
+You are analyzing news articles to answer a forecasting question.
+
+Forecasting Question: "{question}"
+Background: {background}
+
+Below are {num_articles} news articles that have been rated as relevant to this question:
+
+{articles}
+
+Your task: Synthesize these articles into a single cohesive summary that identifies the key factors directly affecting the forecasting question.
+
+Important guidelines:
+- Report ONLY factual information from the articles - do NOT add your own opinions, predictions, or judgments
+- Do NOT use phrases like "is unlikely", "is expected to", "will probably", "suggests that" unless directly quoting the article
+- Do NOT list individual articles or write "Article 1 says...", "Article 2 says..."
+- Instead, identify common themes, trends, and concrete facts across all articles
+- Focus on verifiable facts: announced dates, confirmed events, official statements, historical patterns, current developments
+- Eliminate redundant information - if multiple articles report the same fact, mention it once
+- Write in clear, factual prose (2-4 paragraphs)
+- Begin directly with the facts - no meta-phrases like "Here is a summary" or "Based on these articles"
+
+Write your synthesis:

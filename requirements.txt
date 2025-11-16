@@ -1,0 +1,10 @@
+openai>=1.0.0
+gnews>=0.3.0
+newspaper4k>=0.9.3
+pyyaml>=6.0
+datasets>=2.14.0
+jupyter>=1.0.0
+pandas>=2.0.0
+python-dateutil>=2.8.0
+requests>=2.31.0
+beautifulsoup4>=4.12.0
