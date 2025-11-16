@@ -429,7 +429,10 @@ class NewsRetrievalPipeline:
 
     def __init__(
         self,
-        model_shortname: str,
+        model_shortname: str = None,
+        keyword_model: str = None,
+        rating_model: str = None,
+        summarization_model: str = None,
         config_path: str = "models/model_servers.yaml",
         num_keywords: int = 5,
         news_per_keyword: int = 6,
@@ -444,7 +447,10 @@ class NewsRetrievalPipeline:
         Initialize the news retrieval pipeline.
 
         Args:
-            model_shortname: Shortname of the model to use (from config)
+            model_shortname: Shortname for all agents (if not using individual models)
+            keyword_model: Model for keyword generation (overrides model_shortname)
+            rating_model: Model for rating (overrides model_shortname)
+            summarization_model: Model for summarization (overrides model_shortname)
             config_path: Path to model configuration YAML
             num_keywords: Number of search keywords to generate
             news_per_keyword: Number of news articles to retrieve per keyword
@@ -455,24 +461,25 @@ class NewsRetrievalPipeline:
             summarization_temp: Temperature for summarization
             max_tokens: Maximum tokens for LLM generation
         """
-        # Load model configuration
         self.model_config = ModelConfig(config_path)
-        server_config = self.model_config.get_server_by_shortname(model_shortname)
 
-        if not server_config:
-            raise ValueError(f"Model '{model_shortname}' not found in configuration")
+        # Determine which models to use for each agent
+        kw_model = keyword_model or model_shortname
+        rt_model = rating_model or model_shortname
+        sm_model = summarization_model or model_shortname
 
-        # Create LLM client
-        self.llm_client = LLMClient(
-            api_base=server_config['openai_api_base'],
-            api_key=server_config['openai_api_key'],
-            model_name=server_config['openai_model'],
-            temperature=0.7,
-            max_tokens=max_tokens
-        )
+        if not kw_model or not rt_model or not sm_model:
+            raise ValueError("Must specify either 'model_shortname' or individual models for each agent")
 
-        # Initialize agents
-        self.keyword_agent = KeywordGenerationAgent(self.llm_client)
+        # Create LLM clients for each agent
+        keyword_client = self._create_llm_client(kw_model, max_tokens)
+        rating_client = self._create_llm_client(rt_model, max_tokens)
+        summarization_client = self._create_llm_client(sm_model, max_tokens)
+
+        # Initialize agents with their respective clients
+        self.keyword_agent = KeywordGenerationAgent(keyword_client)
+        self.rating_agent = NewsRatingAgent(rating_client)
+        self.summary_agent = NewsSummarizationAgent(summarization_client)
 
         # Use GNews for news retrieval
         self.news_agent = NewsRetrievalAgent(
@@ -480,14 +487,26 @@ class NewsRetrievalPipeline:
             language="en"
         )
 
-        self.rating_agent = NewsRatingAgent(self.llm_client)
-        self.summary_agent = NewsSummarizationAgent(self.llm_client)
-
         # Store parameters
         self.num_keywords = num_keywords
         self.news_per_keyword = news_per_keyword
         self.min_news_rating = min_news_rating
         self.news_period_days = news_period_days
+
+    def _create_llm_client(self, model_shortname: str, max_tokens: int) -> LLMClient:
+        """Create an LLM client for a specific model."""
+        server_config = self.model_config.get_server_by_shortname(model_shortname)
+
+        if not server_config:
+            raise ValueError(f"Model '{model_shortname}' not found in configuration")
+
+        return LLMClient(
+            api_base=server_config['openai_api_base'],
+            api_key=server_config['openai_api_key'],
+            model_name=server_config['openai_model'],
+            temperature=0.7,
+            max_tokens=max_tokens
+        )
 
     def run(
         self,

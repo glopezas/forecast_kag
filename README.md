@@ -60,12 +60,12 @@ servers:
 
 ## Usage
 
-### Basic Example
+### Basic Example (Single Model)
 
 ```python
 from forecast_kag.news_retrieval import NewsRetrievalPipeline
 
-# Initialize pipeline
+# Use the same model for all agents
 pipeline = NewsRetrievalPipeline(
     model_shortname="llama70",       # From your models/model_servers.yaml
     config_path="models/model_servers.yaml",  # Path to config file
@@ -77,6 +77,26 @@ pipeline = NewsRetrievalPipeline(
     news_rating_temp=0.3,            # Temperature for news rating
     summarization_temp=0.5,          # Temperature for summarization
     max_tokens=1000                  # Max tokens for LLM responses
+)
+```
+
+### Advanced Example (Different Models per Agent)
+
+```python
+# Use different models for different agents
+pipeline = NewsRetrievalPipeline(
+    keyword_model="llama70",         # Model for keyword generation
+    rating_model="qwen80",           # Model for rating articles
+    summarization_model="oss120",    # Model for summarization
+    config_path="models/model_servers.yaml",
+    num_keywords=5,
+    news_per_keyword=6,
+    min_news_rating=3,
+    news_period_days=90,
+    question_gen_temp=0.7,
+    news_rating_temp=0.3,
+    summarization_temp=0.5,
+    max_tokens=1000
 )
 
 # Run pipeline
@@ -95,10 +115,19 @@ print(results['stats'])                    # Pipeline statistics
 
 ### Pipeline Parameters
 
-**Core Parameters:**
+**Model Selection (choose one approach):**
+
+*Option 1 - Single model for all agents:*
 - `model_shortname` (str): Model identifier from your config file
+
+*Option 2 - Different models per agent:*
+- `keyword_model` (str): Model for keyword generation
+- `rating_model` (str): Model for article rating
+- `summarization_model` (str): Model for synthesis
+
+**Core Parameters:**
 - `config_path` (str): Path to model config YAML (default: "models/model_servers.yaml")
-- `num_questions` (int): Number of search keywords to generate (default: 5)
+- `num_keywords` (int): Number of search keywords to generate (default: 5)
 - `news_per_keyword` (int): Articles to retrieve per keyword (default: 6)
 - `min_news_rating` (int): Minimum relevance rating 1-5 (default: 3)
 - `news_period_days` (int): Days to search back for news (default: 90)
@@ -139,37 +168,6 @@ results = pipeline.run(
     }
 }
 ```
-
-## Pipeline Architecture
-
-### 1. Keyword Generation Agent
-- **Input**: Forecasting question + background
-- **Process**: Uses LLM to generate targeted search keywords (3-7 words each)
-- **Output**: List of optimized search phrases
-
-### 2. News Retrieval Agent
-- **Input**: Search keywords + date range
-- **Process**:
-  - Searches Google News for each keyword
-  - Resolves Google News redirects using internal API
-  - Fetches full article content with newspaper3k
-  - Validates content length (min 100 chars)
-- **Output**: Articles with full content
-- **Note**: Discards articles where fetching fails
-
-### 3. News Rating Agent
-- **Input**: Articles + forecasting question
-- **Process**: Rates each article's relevance (1-5 scale)
-- **Output**: Rated articles sorted by relevance
-- **Prompt**: `forecast_kag/prompts/news_rating.txt`
-
-### 4. Summarization Agent
-- **Input**: Relevant articles (rating >= threshold)
-- **Process**: Synthesizes all articles into single cohesive summary
-- **Output**: 2-4 paragraph factual analysis
-- **Prompt**: `forecast_kag/prompts/news_synthesis.txt`
-
-
 
 ## Examples
 
