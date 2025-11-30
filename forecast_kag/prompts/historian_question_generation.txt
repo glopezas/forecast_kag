@@ -1,0 +1,92 @@
+You are generating binary forecasting questions WITHOUT prior knowledge of outcomes.
+
+Current Real Date: {current_date}
+Simulated Question Date: {simulated_date}
+Topic: {topic}
+Category: {category}
+Subcategory: {subcategory}
+
+CRITICAL: Generate the question BEFORE searching for the answer to avoid bias.
+
+STEP 1: IDENTIFY POTENTIAL ENTITIES
+Based on the subcategory, identify specific entities that could have events:
+- For "iPhone Releases" → Apple, iPhone models
+- For "Championship Winners" → Teams in that sport
+- For "Product Launches" → Companies and their products
+- For "Awards" → Likely nominees/candidates
+
+IMPORTANT: Generate DIVERSE questions - consider DIFFERENT entities, actions, and timeframes
+- If the subcategory is "State Governor Elections", don't only ask about California - consider Texas, Florida, New York, etc.
+- If the subcategory is "Championship Winners", ask about different teams and different championships
+- Vary the deadline timeframes (some 2-3 months out, some 6-12 months out)
+
+STEP 2: GENERATE INTERESTING QUESTIONS WITH GENUINE UNCERTAINTY
+Create a specific question about a plausible future event (from {simulated_date} perspective):
+
+Format: "Will [Specific Entity] [Concrete Action] before [Deadline]?"
+
+CRITICAL - GENERATE INTERESTING QUESTIONS:
+The best forecasting questions have GENUINE UNCERTAINTY - both "Yes" and "No" are plausible outcomes.
+
+✅ GOOD (Interesting, uncertain questions):
+- "Will Apple release iPhone 16 before September 30, 2024?" (Apple releases phones annually, timing is uncertain)
+- "Will Tesla stock price exceed $300 before December 2024?" (Stock could go either way)
+- "Will SpaceX successfully launch Starship to orbit before June 2024?" (New technology, uncertain)
+- "Will the United States Congress pass a major infrastructure bill before October 2024?" (Political process is unpredictable)
+- "Will Microsoft acquire a major AI company before December 2024?" (Plausible but not certain)
+
+❌ BAD (Boring, obviously will/won't happen):
+- "Will the sun rise tomorrow?" (Obviously yes, no uncertainty)
+- "Will humans colonize Mars before next month?" (Obviously no, impossible timeframe)
+- "Will Apple shut down completely before 2025?" (Obviously no, unrealistic)
+- "Will a random person announce presidential candidacy?" (Low-profile person unlikely to be notable)
+
+GUIDELINES FOR INTERESTING QUESTIONS:
+1. **Choose entities that are ACTIVE and RELEVANT** in the subcategory
+   - For elections: Actual candidates or likely candidates
+   - For tech: Companies that regularly release products
+   - For sports: Competitive teams with a realistic chance
+   - For legislation: Bills that are actually being discussed
+
+2. **Ask about events that COULD PLAUSIBLY HAPPEN**
+   - Regular product cycles (annual phone releases, quarterly earnings)
+   - Ongoing competitions (sports seasons, elections with multiple candidates)
+   - Discussed legislation (bills in committee, proposed policies)
+   - Announced plans (promised features, planned launches)
+
+3. **Avoid asking about events that are TOO UNLIKELY**
+   - Don't ask if unknown people will do notable things
+   - Don't ask about events that rarely happen
+   - Don't ask about things that require major changes to status quo
+
+Requirements:
+- Entity must be SPECIFIC and ACTIVE (company name, team name, product name, person name)
+- Action must be CONCRETE and PLAUSIBLE (release, win, announce, achieve, reach)
+- Deadline must be between {simulated_date} and {current_date}
+- Question should have GENUINE UNCERTAINTY - think "could go either way"
+
+STEP 3: DETERMINE DEADLINE
+Choose a deadline that:
+- Is 2-12 months after {simulated_date}
+- Is BEFORE {current_date} (so we can verify the answer)
+- Is AT LEAST 30 days before {current_date} (to ensure information is publicly available)
+- Makes sense for the type of event (product releases ~6-12 months, sports seasons ~3-6 months)
+
+CRITICAL: The deadline must have passed with enough time for the outcome to be documented.
+For example, if current date is 2025-11-30, the deadline should be before 2025-11-01 at latest.
+
+Output Format (JSON):
+{{
+  "question": "Will [Entity] [Action] before [Deadline]?",
+  "entity": "The specific entity (company/team/person/product)",
+  "deadline": "YYYY-MM-DD",
+  "reasoning": "Why this question has GENUINE UNCERTAINTY - explain why BOTH Yes and No are plausible outcomes"
+}}
+
+IMPORTANT:
+- Do NOT search for the answer yet
+- Do NOT mention any outcomes or results
+- Generate the question as if you're on {simulated_date} looking forward
+- Think: "Would someone on {simulated_date} find this question interesting to forecast?"
+- The question should make forecasters think, not be obvious
+- Output ONLY the JSON structure, no additional text

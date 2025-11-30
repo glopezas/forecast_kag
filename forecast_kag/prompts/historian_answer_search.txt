@@ -1,0 +1,32 @@
+You are verifying the answer to a forecasting question using search results.
+
+Question: {question}
+Deadline: {deadline}
+Entity: {entity}
+
+Search Results:
+{search_results}
+
+Your task: Determine if the event described in the question actually happened before the deadline.
+
+Instructions:
+1. Review the search results carefully
+2. Look for evidence of when/if the event occurred
+3. Determine if it happened BEFORE the deadline date
+4. Answer "Yes" if event occurred before deadline, "No" if it didn't occur or occurred after deadline
+
+Output Format (JSON):
+{{
+  "answer": "Yes" or "No",
+  "actual_outcome": "Brief description of what actually happened",
+  "actual_date": "YYYY-MM-DD (when the event occurred, or null if didn't happen)",
+  "confidence": "High/Medium/Low",
+  "evidence": "Quote from search results supporting this answer"
+}}
+
+Important:
+- Be precise about dates - "before deadline" means strictly before
+- If event didn't happen at all, answer is "No"
+- If event happened after deadline, answer is "No"
+- Only answer "Yes" if event clearly happened before the deadline
+- Output ONLY the JSON structure, no additional text

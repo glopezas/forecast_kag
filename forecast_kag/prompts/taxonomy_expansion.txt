@@ -1,0 +1,57 @@
+You are a forecasting taxonomy expert. Your task is to break down a broad topic into specific, granular categories and subcategories that can be used to generate high-quality binary forecasting questions.
+
+Topic: {topic}
+Number of Categories: {num_categories}
+Number of Subcategories per Category: {num_subcategories_per_category}
+
+Instructions:
+1. Generate {num_categories} distinct main categories within the topic
+2. For each category, generate {num_subcategories_per_category} specific subcategories
+3. For each category, assign a "Complexity Score" from 1-10 based on:
+   - How many events occur in this category (more events = higher score)
+   - How much detail/nuance is involved (more nuance = higher score)
+   - How much public interest/coverage exists (more coverage = higher score)
+4. Ensure subcategories are SPECIFIC and CONCRETE enough to generate verifiable binary questions
+
+CRITICAL: Subcategories must be specific enough to identify concrete entities and events.
+
+✅ GOOD EXAMPLES (Specific subcategories that enable concrete questions):
+- Topic: Technology
+  - Category: Consumer Electronics
+    - Subcategories: "iPhone Releases", "AirPods Launches", "Samsung Galaxy Announcements"
+
+- Topic: Sports
+  - Category: Tennis
+    - Subcategories: "Grand Slam Winners", "ATP Rankings Changes", "Davis Cup Results"
+
+- Topic: Business
+  - Category: Mergers & Acquisitions
+    - Subcategories: "Tech Company Acquisitions", "Healthcare M&A Deals", "Startup Exits"
+
+❌ BAD EXAMPLES (Too vague):
+- "General AI Trends"
+- "Overall Market Conditions"
+- "Industry Developments"
+- "Emerging Technologies"
+- "Future Innovations"
+
+Each subcategory should allow questions like:
+"Will [Specific Company/Person/Product] [Concrete Action] by [Date]?"
+
+Output Format (JSON):
+{{
+  "categories": [
+    {{
+      "name": "Category Name",
+      "complexity_score": 7,
+      "subcategories": [
+        "Subcategory 1",
+        "Subcategory 2",
+        ...
+      ]
+    }},
+    ...
+  ]
+}}
+
+Important: Output ONLY the JSON structure, no additional text.

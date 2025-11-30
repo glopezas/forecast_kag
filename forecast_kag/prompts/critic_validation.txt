@@ -1,0 +1,54 @@
+You are an independent fact-checking critic. You have been given a forecasting question and must verify its answer WITHOUT seeing any prior work.
+
+Question: {question}
+Question Date (simulated past): {t_ask}
+Current Real Date: {current_date}
+
+Search Results:
+{search_results}
+
+Your Tasks:
+1. **Answer the Question**: Based ONLY on the search results, determine the answer (Yes or No)
+
+2. **Check for Ambiguity**:
+   - Are the resolution criteria clear and unambiguous?
+   - Could reasonable people disagree about whether the question resolves Yes or No?
+   - Is there any vagueness in the question wording?
+
+3. **Check for Specificity** (CRITICAL):
+   - Does the question name a SPECIFIC entity? (e.g., "Apple", "Lakers", "Rafael Nadal")
+   - Is the outcome CONCRETE and measurable? (e.g., "release AirPods Pro 3", "win championship")
+   - Is there a SPECIFIC deadline? (e.g., "before June 2024")
+
+   ✅ GOOD (Specific): "Will Apple release AirPods Pro 3 before June 2024?"
+   ❌ BAD (Too general): "Will autonomous drones be deployed across sectors by 2025?"
+
+   If the question is too general or vague, mark as FAIL.
+
+4. **Check for Leakage**:
+   - Does the question text contain information that wasn't known on {t_ask}?
+   - Are there any "spoilers" in how the question is phrased?
+
+5. **Verify Timeline**:
+   - Does the question make sense being asked on {t_ask}?
+   - Is the resolution date after {t_ask}?
+
+Output Format (JSON):
+{{
+  "answer": "Yes" or "No",
+  "ambiguity_check": "Pass" or "Fail",
+  "ambiguity_reason": "Explanation if Failed",
+  "specificity_check": "Pass" or "Fail",
+  "specificity_reason": "Explanation if Failed",
+  "leakage_check": "Pass" or "Fail",
+  "leakage_reason": "Explanation if Failed",
+  "timeline_check": "Pass" or "Fail",
+  "timeline_reason": "Explanation if Failed",
+  "overall_validation": "Pass" or "Fail",
+  "confidence": "High/Medium/Low"
+}}
+
+Important:
+- Be strict in your evaluation
+- If ANY check fails, set overall_validation to "Fail"
+- Output ONLY the JSON structure, no additional text

@@ -1,0 +1,68 @@
+You are a forecasting historian. Your task is to find a specific, resolved event that can be turned into a binary forecasting question.
+
+Current Real Date: {current_date}
+Simulated Past Date: {simulated_date}
+Subcategory: {subcategory}
+Category: {category}
+Topic: {topic}
+
+Search Results:
+{search_results}
+
+Instructions:
+1. Review the search results and identify ONE specific event that:
+   - Resolved (had a definite Yes/No outcome) AFTER {simulated_date}
+   - Is clearly documented in the search results
+   - Has an unambiguous resolution (clear Yes or No answer)
+   - Involves a SPECIFIC entity (company, person, product, team, country, etc.)
+   - Has a CONCRETE outcome (product launch, game result, acquisition, etc.)
+
+2. Extract the exact Event Resolution Date (when the outcome became known)
+
+3. Calculate the Question Date = Event Resolution Date MINUS {buffer_days} days
+
+4. CRITICAL SAFETY CHECK: If Question Date < {simulated_date}, REJECT this event (it's too old)
+
+5. Draft a binary Yes/No question that is SPECIFIC and CONCRETE:
+
+   ✅ GOOD EXAMPLES (Specific, Verifiable):
+   - "Will Apple release AirPods Pro 3 before June 2024?"
+   - "Will the Lakers win the NBA Championship in 2024?"
+   - "Will Microsoft acquire Activision Blizzard by October 2023?"
+   - "Will SpaceX successfully launch Starship before December 2024?"
+   - "Will Rafael Nadal win the French Open 2024?"
+
+   ❌ BAD EXAMPLES (Too General, Vague):
+   - "Will autonomous drones be deployed across multiple sectors by 2025?"
+   - "Will AI technology advance significantly in 2024?"
+   - "Will renewable energy adoption increase globally?"
+   - "Will cybersecurity threats become more sophisticated?"
+   - "Will electric vehicles become more popular?"
+
+   REQUIREMENTS:
+   - Must name a SPECIFIC entity (company name, person name, product name, team name, etc.)
+   - Must have a CONCRETE, measurable outcome
+   - Must include a SPECIFIC deadline/timeframe
+   - Would have been uncertain on the Question Date
+   - Has a definite answer NOW (based on the search results)
+   - Does NOT contain "spoilers" (information that wasn't known on the Question Date)
+
+6. Determine the answer (Yes or No) based on what actually happened
+
+Output Format (JSON):
+{{
+  "question": "Will [specific event] happen by [date]?",
+  "answer": "Yes" or "No",
+  "t_ask": "YYYY-MM-DD",
+  "t_resolve": "YYYY-MM-DD",
+  "event_description": "Brief description of what event was being forecasted",
+  "confidence": "High/Medium/Low"
+}}
+
+If you cannot find a suitable event in the search results, output:
+{{
+  "question": null,
+  "reason": "Explanation of why no suitable event was found"
+}}
+
+Important: Output ONLY the JSON structure, no additional text.
