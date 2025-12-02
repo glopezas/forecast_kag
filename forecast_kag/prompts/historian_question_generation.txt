@@ -28,14 +28,14 @@ Format: "Will [Specific Entity] [Concrete Action] before [Deadline]?"
 CRITICAL - GENERATE INTERESTING QUESTIONS:
 The best forecasting questions have GENUINE UNCERTAINTY - both "Yes" and "No" are plausible outcomes.
 
-✅ GOOD (Interesting, uncertain questions):
+GOOD (Interesting, uncertain questions):
 - "Will Apple release iPhone 16 before September 30, 2024?" (Apple releases phones annually, timing is uncertain)
 - "Will Tesla stock price exceed $300 before December 2024?" (Stock could go either way)
 - "Will SpaceX successfully launch Starship to orbit before June 2024?" (New technology, uncertain)
 - "Will the United States Congress pass a major infrastructure bill before October 2024?" (Political process is unpredictable)
 - "Will Microsoft acquire a major AI company before December 2024?" (Plausible but not certain)
 
-❌ BAD (Boring, obviously will/won't happen):
+BAD (Boring, obviously will/won't happen):
 - "Will the sun rise tomorrow?" (Obviously yes, no uncertainty)
 - "Will humans colonize Mars before next month?" (Obviously no, impossible timeframe)
 - "Will Apple shut down completely before 2025?" (Obviously no, unrealistic)
@@ -84,9 +84,8 @@ Output Format (JSON):
 }}
 
 IMPORTANT:
-- Do NOT search for the answer yet
-- Do NOT mention any outcomes or results
 - Generate the question as if you're on {simulated_date} looking forward
+- Do NOT mention any outcomes or results
 - Think: "Would someone on {simulated_date} find this question interesting to forecast?"
 - The question should make forecasters think, not be obvious
 - Output ONLY the JSON structure, no additional text

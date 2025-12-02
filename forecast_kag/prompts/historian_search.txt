@@ -25,14 +25,14 @@ Instructions:
 
 5. Draft a binary Yes/No question that is SPECIFIC and CONCRETE:
 
-   ✅ GOOD EXAMPLES (Specific, Verifiable):
+   GOOD EXAMPLES (Specific, Verifiable):
    - "Will Apple release AirPods Pro 3 before June 2024?"
    - "Will the Lakers win the NBA Championship in 2024?"
    - "Will Microsoft acquire Activision Blizzard by October 2023?"
    - "Will SpaceX successfully launch Starship before December 2024?"
    - "Will Rafael Nadal win the French Open 2024?"
 
-   ❌ BAD EXAMPLES (Too General, Vague):
+   BAD EXAMPLES (Too General, Vague):
    - "Will autonomous drones be deployed across multiple sectors by 2025?"
    - "Will AI technology advance significantly in 2024?"
    - "Will renewable energy adoption increase globally?"
